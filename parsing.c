@@ -94,7 +94,7 @@ void	ft_parse_map(t_map	*map)
 	while (line)
 	{
 		ok = map->width == ft_get_point(line, map->vert_pool, y++, map->width);
-		ft_assert((ok), "Error: invalid line size\n");
+		ft_assert((ok && !(map->width == 0)), "Error: invalid line size\n");
 		free(line);
 		line = get_next_line(fd);
 	}
