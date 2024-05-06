@@ -23,6 +23,16 @@ t_vec3	ft_vec3(float x, float y, float z)
 	return (vec);
 }
 
+float	ft_deg_to_radians(float deg)
+{
+	return ((deg / 180.0f) * M_PI);
+}
+
+float	ft_rad_to_deg(float rad)
+{
+	return ((rad * 180.0f) / M_PI);
+}
+
 float	ft_pytagorean_dist(t_vec3 start, t_vec3 end, t_vec3 curr)
 {
 	float	dx;

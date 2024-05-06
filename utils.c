@@ -110,19 +110,34 @@ int	ft_get_map_height(const char *filename)
 	return (size);
 }
 
-t_state	ft_empty_state(void)
+t_state	ft_state_isometric(void)
 {
 	t_state state;
 
 	state = (t_state){
 		.scale = 10.0f,
-		.scale_z = 0.5f,
+		.scale_z = -0.5f,
 		.translate_x = 0,
 		.translate_y = 0,
-		.rotate_x= 0.523598999993982,
-		.rotate_y = 0.785398,
-		.theta = 0.523598999993982
+		.rotate_x = ft_deg_to_radians(-17), 
+		.rotate_z = ft_deg_to_radians(-42), 
+		.rotate_y = ft_deg_to_radians(-17), 
 	};
 	return (state);
 }
 
+t_state	ft_state_orthographic(void)
+{
+	t_state state;
+
+	state = (t_state){
+		.scale = 10.0f,
+		.scale_z = -0.5f,
+		.translate_x = 0,
+		.translate_y = 0,
+		.rotate_x = ft_deg_to_radians(45), 
+		.rotate_z = ft_deg_to_radians(0), 
+		.rotate_y = ft_deg_to_radians(0), 
+	};
+	return (state);
+}

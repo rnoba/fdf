@@ -70,3 +70,15 @@ t_polygon	ft_rotate_poly_y(t_polygon p, float ang)
 	};
 	return (r);
 }
+
+t_polygon	ft_rotate_poly_z(t_polygon p, float ang)
+{
+	t_polygon	r;
+
+	r = (t_polygon){
+		.p1 = ft_rotate_z(p.p1, ang),
+		.p2 = ft_rotate_z(p.p2, ang),
+		.p3 = ft_rotate_z(p.p3, ang)
+	};
+	return (r);
+}

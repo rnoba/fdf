@@ -24,29 +24,6 @@ t_point	ft_scale_point(t_point p, t_vec3 scaling)
 	return (r);
 }
 
-t_point	ft_div_point(t_point p, float z)
-{
-	t_point	r;
-	float	x;
-	float	y;
-
-	float a = ((45.0f / 180.0f) * (float)M_PI);
-	x = p.x;
-	y = p.y;
-	if (z*tanf(a/2.0f) > 0.0f)
-	{
-		x /= z*tanf(a/2.0f);
-		y /= z*tanf(a/2.0f);
-	}
-	r = (t_point){
-		.x = x, 
-		.y = y,
-		.z = z,
-		.color = p.color
-	};
-	return (r);
-}
-
 t_point	ft_translate_point(t_point p, t_vec3 translation)
 {
 	t_point	r;
@@ -80,7 +57,20 @@ t_point	ft_rotate_y(t_point p, float ang)
 	r = (t_point){
 		.x = p.x * cosf(ang) + p.z * sinf(ang),
 		.y = p.y,
-		.z = p.z * cosf(ang) - p.x * sinf(ang),
+		.z = p.x * sinf(ang) - p.z * cosf(ang),
+		.color = p.color
+	};
+	return (r);
+}
+
+t_point	ft_rotate_z(t_point p, float ang)
+{
+	t_point	r;
+
+	r = (t_point){
+		.x = p.x * cosf(ang) - p.y * sinf(ang),
+		.y = p.x * sinf(ang) + p.y * cosf(ang),
+		.z = p.z,
 		.color = p.color
 	};
 	return (r);

@@ -55,13 +55,13 @@ int	main(int ac, char *av[])
 	ft_assert(ac == 2, "Usage: fdf [mapname]");
 	map.mlx = ft_init_mlx(&map.meta);
 	map.file = av[ac-1];
-	map.state = ft_empty_state();
+	map.state = ft_state_isometric();
 	map.height = ft_get_map_height(map.file);
 	ft_parse_map(&map);
 	map.faces = ft_mount_faces(map.width, map.height);
-	mlx_loop_hook(map.mlx.ptr, (int (*)())ft_looping, (void *)&map);
-	mlx_hook(map.mlx.window, DestroyNotify, NoEventMask, (int (*)())ft_mlx_terminate, (void *)&map.mlx);
-	mlx_hook(map.mlx.window, KeyPress, KeyPressMask, (int (*)())ft_handle_input, (void *)&map);
+	mlx_loop_hook(map.mlx.ptr, ft_looping, (void *)&map);
+	mlx_hook(map.mlx.window, DestroyNotify, NoEventMask, ft_mlx_terminate, (void *)&map.mlx);
+	mlx_hook(map.mlx.window, KeyPress, KeyPressMask, ft_handle_input, (void *)&map);
 	mlx_loop(map.mlx.ptr);
 	ft_destroy_mlx(&map.mlx);
 	free(map.faces);

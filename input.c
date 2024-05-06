@@ -46,14 +46,6 @@ void	ft_handle_input(int keycode, t_map *map)
 	else if (keycode == XK_x)
 	{
 		map->state.scale_z -= .2f;
-	}
-	else if (keycode == XK_t)
-	{
-		map->state.theta -= 0.0174533;
-	}
-	else if (keycode == XK_y)
-	{
-		map->state.theta += 0.0174533;
 	} else if (keycode == 65361)
 	{
 		map->state.rotate_y += 0.05f;
@@ -66,5 +58,11 @@ void	ft_handle_input(int keycode, t_map *map)
 	} else if (keycode == 65364)
 	{
 		map->state.rotate_x -= 0.05f;
+	} else if (keycode == XK_m)
+	{
+		map->state.rotate_z -= 0.05f;
+	} else if (keycode == XK_n)
+	{
+		map->state.rotate_z += 0.05f;
 	}
 }
