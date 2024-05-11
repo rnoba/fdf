@@ -6,7 +6,7 @@
 /*   By: rnogueir <rnogueir@student.42sp.org.b      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:03 by rnogueir          #+#    #+#             */
-/*   Updated: 2024/05/01 15:15:46 by rnogueir         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:09:33 by rnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fdf.h>
@@ -85,16 +85,18 @@ void	ft_parse_map(t_map	*map)
 	int		fd;
 	int		y;
 
-	ft_assert((fd = open(map->file, O_RDONLY)) != -1, strerror(errno));
+	ft_assert((fd = open(map->file, O_RDONLY)) != -1, strerror(errno),
+		&map->mlx);
 	line = get_next_line(fd);
 	map->width = ft_get_map_width(line);
 	map->vert_pool = malloc(sizeof(t_point) * (map->width * map->height));
-	ft_assert((map->vert_pool) != NULL, strerror(errno));
+	ft_assert((map->vert_pool) != NULL, strerror(errno), &map->mlx);
 	y = 0;
 	while (line)
 	{
 		ok = map->width == ft_get_point(line, map->vert_pool, y++, map->width);
-		ft_assert((ok && !(map->width == 0)), "Error: invalid line size\n");
+		ft_assert((ok && !(map->width == 0)), "Error: invalid line size\n",
+			&map->mlx);
 		free(line);
 		line = get_next_line(fd);
 	}

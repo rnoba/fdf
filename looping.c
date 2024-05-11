@@ -6,48 +6,68 @@
 /*   By: rnogueir <rnogueir@student.42sp.org.b      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:01:59 by rnogueir          #+#    #+#             */
-/*   Updated: 2024/05/04 17:02:20 by rnogueir         ###   ########.fr       */
+/*   Updated: 2024/05/11 20:42:30 by rnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fdf.h>
 
-static t_polygon	ft_rotate_polygon(t_polygon poly, float rx, float ry, float rz, t_vec2 center)
+static t_polygon	ft_rotate_polygon(t_polygon p, t_vec3 r, t_vec2 c)
 {
-	t_polygon p0 = ft_poly_translate(poly, ft_vec3(-center.x, -center.y, 0));
-	t_polygon px = ft_rotate_poly_x(p0, rx);
-	t_polygon py = ft_rotate_poly_y(px, ry);
-	t_polygon pz = ft_rotate_poly_z(py, rz);
-	t_polygon p1 = ft_poly_translate(pz, ft_vec3(center.x, center.y, 0));
-	return (ft_project(p1));
+	t_polygon	p0;
+	t_polygon	p_rotated;
+
+	p0 = ft_poly_translate(p, ft_vec3(-c.x, -c.y, 0));
+	p_rotated = ft_rotate_p_z(ft_rotate_p_y(ft_rotate_p_x(p0, r.x), r.y), r.z);
+	return (ft_project(ft_poly_translate(p_rotated, ft_vec3(c.x, c.y, 0))));
+}
+
+static	t_polygon	ft_scale_polygon(t_polygon poly, t_map *map)
+{
+	t_polygon	p;
+
+	p = ft_poly_scale(ft_poly_scale(poly,
+				ft_vec3(map->state.scale, map->state.scale,
+					map->state.scale)),
+			ft_vec3(1, 1, map->state.scale_z));
+	return (p);
+}
+
+static	t_polygon	ft_p(int idx, t_map *map)
+{
+	t_polygon	p;
+
+	p = (t_polygon){
+		.p1 = map->vert_pool[map->faces[idx].p1],
+		.p2 = map->vert_pool[map->faces[idx].p2],
+		.p3 = map->vert_pool[map->faces[idx].p3]
+	};
+	return (p);
 }
 
 void	ft_looping(t_map *map)
 {
 	int			idx;
-	t_polygon	p;
+	t_vec2		c;
+	t_vec2		m;
 	t_polygon	p_scaled;
-	t_polygon	p_transl;
 	t_polygon	p_rot;
-	float mx;
-	float my;
 
 	idx = 0;
-	ft_mlx_clear(map->meta.width, map->meta.height, map->meta, ft_color_new(0x0, 0x0, 0x0));
+	ft_mlx_clear(map->meta.width, map->meta.height, map->meta,
+		ft_color_new(0x0, 0x0, 0x0));
 	while (idx < map->width * map->height)
 	{
-		p = (t_polygon){
-			.p1 = map->vert_pool[map->faces[idx].p1],
-			.p2 = map->vert_pool[map->faces[idx].p2],
-			.p3 = map->vert_pool[map->faces[idx].p3]
-		};
-		p_scaled = ft_poly_scale(p, ft_vec3(map->state.scale, map->state.scale, map->state.scale));
-		mx = map->state.scale * map->width * 0.5f;
-		my = map->state.scale * map->height * 0.5f;
-		t_polygon p_scaled_z = ft_poly_scale(p_scaled, ft_vec3(1, 1, map->state.scale_z));
-		p_transl = ft_poly_translate(p_scaled_z, ft_vec3(map->state.translate_x + map->meta.width * 0.5f - mx, map->state.translate_y + map->meta.height * 0.5f - my, 0));
-		p_rot = ft_rotate_polygon(p_transl, map->state.rotate_x, map->state.rotate_y, map->state.rotate_z, (t_vec2){.x = map->state.translate_x + map->meta.width * 0.5f, .y = map->state.translate_y + map->meta.height * 0.5f});
+		p_scaled = ft_scale_polygon(ft_p(idx++, map), map);
+		m = ft_v2(map->state.scale * map->width * 0.5f,
+				map->state.scale * map->height * 0.5f);
+		c = ft_v2(map->state.translate_x + map->meta.width * 0.5f,
+				map->state.translate_y + map->meta.height * 0.5f);
+		p_rot = ft_rotate_polygon(
+				ft_poly_translate(p_scaled, ft_vec3(c.x - m.x, c.y - m.y, 0)),
+				ft_vec3(map->state.rotate_x, map->state.rotate_y,
+					map->state.rotate_z), ft_v2(c.x, c.y));
 		ft_outline_polygon(p_rot, map->meta);
-		idx++;
 	}
-	mlx_put_image_to_window(map->mlx.ptr, map->mlx.window, map->mlx.image, 0, 0);
+	mlx_put_image_to_window(map->mlx.ptr, map->mlx.window,
+		map->mlx.image, 0, 0);
 }
