@@ -6,7 +6,7 @@
 #    By: rnogueir <rnogueir@student.42sp.org.b      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 17:33:49 by rnogueir          #+#    #+#              #
-#    Updated: 2024/05/11 19:01:35 by rnogueir         ###   ########.fr        #
+#    Updated: 2024/05/12 17:05:23 by rnogueir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME=fdf
@@ -16,7 +16,7 @@ SRC=main.c utils.c parsing.c polygon.c\
 	transformations.c input_utils.c\
 	render_utils.c
 BONUS_SRC=main_bonus.c utils.c parsing.c polygon.c\
-	render.c looping.c linealgebra.c\
+	render.c looping_bonus.c linealgebra.c\
 	input_bonus.c projection.c color.c\
 	transformations.c input_utils.c\
 	render_utils.c

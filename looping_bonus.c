@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   looping.c                                          :+:      :+:    :+:   */
+/*   looping_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rnogueir <rnogueir@student.42sp.org.b      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:01:59 by rnogueir          #+#    #+#             */
-/*   Updated: 2024/05/12 17:08:16 by rnogueir         ###   ########.fr       */
+/*   Updated: 2024/05/12 17:05:34 by rnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fdf.h>
@@ -25,8 +25,6 @@ static	t_polygon	ft_scale_polygon(t_polygon poly, t_map *map)
 {
 	t_polygon	p;
 
-	if (map->width * map->height > 1000)
-		map->state.scale = 2.0f;
 	p = ft_poly_scale(ft_poly_scale(poly,
 				ft_vec3(map->state.scale, map->state.scale,
 					map->state.scale)),
